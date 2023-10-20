@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.goods.business.mapper.ProductCategoryMapper">
+    <insert id="insert">
+        insert into biz_product_category (id,
+        name,
+        remark,
+        sort,
+        create_time,
+        modified_time,
+        pid)
+        values (
+        #{id},
+        #{name},
+        #{remark},
+        #{sort},
+        now(),
+        now(),
+        #{pid}
+        );
+    </insert>
+    <update id="update">
+        update biz_product_category set
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="remark != null and remark != ''">
+            remark = #{remark},
+        </if>
+        <if test="sort != null and sort != ''">
+            sort = #{sort},
+        </if>
+        modified_time = now()
+        where id = #{id}
+    </update>
+    <delete id="delete">
+        delete from biz_product_category where id = #{productCategoryId}
+    </delete>
+
+    <select id="findAllProductCategory" resultType="com.goods.common.vo.business.ProductCategoryTreeNodeVO">
+        select * from biz_product_category
+    </select>
+    <select id="findProductCategory1List" resultType="com.goods.common.vo.business.ProductCategoryTreeNodeVO">
+        select * from biz_product_category where pid = 0;
+    </select>
+    <select id="findProductCategory2List" resultType="com.goods.common.vo.business.ProductCategoryTreeNodeVO">
+        select * from biz_product_category bpc inner join
+        (select * from biz_product_category where pid = 0) c1
+        on bpc.pid = c1.id
+    </select>
+    <select id="findProductCategory3List" resultType="com.goods.common.vo.business.ProductCategoryTreeNodeVO">
+        select * from biz_product_category bpc inner join
+        (select bpc.id
+        from biz_product_category bpc
+        inner join
+        (select * from biz_product_category where pid = 0) c1
+        on bpc.pid = c1.id) c2
+        on bpc.pid = c2.id
+    </select>
+    <select id="findProductCategoryVOById" resultType="com.goods.common.vo.business.ProductCategoryVO">
+        select * from biz_product_category where id = #{productCategoryId}
+    </select>
+
+</mapper>

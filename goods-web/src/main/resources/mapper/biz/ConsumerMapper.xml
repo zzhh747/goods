@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.goods.business.mapper.ConsumerMapper">
+    <insert id="add">
+        insert into biz_consumer (id,
+        name,
+        address,
+        create_time,
+        modified_time,
+        phone,
+        sort,
+        contact)
+        values (
+        #{id},
+        #{name},
+        #{address},
+        now(),
+        now(),
+        #{phone},
+        #{sort},
+        #{contact}
+        );
+    </insert>
+    <update id="update">
+        update biz_consumer set
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="address != null and address != ''">
+            address = #{address},
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{phone},
+        </if>
+        <if test="sort != null and sort != ''">
+            sort = #{sort},
+        </if>
+        modified_time = now()
+        where id = #{id}
+    </update>
+    <delete id="delete">
+        delete from biz_consumer where id = #{id}
+    </delete>
+
+    <select id="findConsumerList" resultType="com.goods.common.model.business.Consumer">
+        select * from biz_consumer where 1=1
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test="contact != null and contact != ''">
+            and contact = #{contact}
+        </if>
+        <if test="address != null and address != ''">
+            and address = #{address}
+        </if>
+    </select>
+    <select id="edit" resultType="com.goods.common.model.business.Consumer">
+        select * from biz_consumer where id = #{id}
+    </select>
+</mapper>

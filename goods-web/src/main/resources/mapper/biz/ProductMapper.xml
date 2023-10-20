@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.goods.business.mapper.ProductMapper">
+    <insert id="add">
+        insert into biz_product (
+        id,
+        p_num,
+        name,
+        image_url,
+        model,
+        unit,
+        remark,
+        sort,
+        create_time,
+        modified_time,
+        one_category_id,
+        two_category_id,
+        three_category_id,
+        status
+        )
+        values (
+        #{id},
+        #{pNum},
+        #{name},
+        #{imageUrl},
+        #{model},
+        #{unit},
+        #{remark},
+        #{sort},
+        now(),
+        now(),
+        #{oneCategoryId},
+        #{twoCategoryId},
+        #{threeCategoryId},
+        #{status}
+        )
+    </insert>
+    <update id="update">
+        update biz_product set
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="imageUrl != null and imageUrl != ''">
+            image_url = #{imageUrl},
+        </if>
+        <if test="model != null and model != ''">
+            model = #{model},
+        </if>
+        <if test="unit != null and unit != ''">
+            unit = #{unit},
+        </if>
+        <if test="sort != null and sort != ''">
+            sort = #{sort},
+        </if>
+        <if test="oneCategoryId != null and oneCategoryId != ''">
+            one_category_id = #{oneCategoryId},
+        </if>
+        <if test="twoCategoryId != null and twoCategoryId != ''">
+            two_category_id = #{twoCategoryId},
+        </if>
+        <if test="threeCategoryId != null and threeCategoryId != ''">
+            three_category_id = #{threeCategoryId},
+        </if>
+        modified_time = now()
+        where id = #{id}
+    </update>
+
+    <update id="publish">
+        update biz_product set status = 0 where id = #{id}
+    </update>
+    <update id="remove">
+        update biz_product set status = 1 where id = #{id}
+    </update>
+    <delete id="delete">
+        delete from biz_product where id = #{id}
+    </delete>
+
+
+    <select id="selectProductList" resultType="com.goods.common.model.business.Product">
+        select * from biz_product where 1=1
+        and status = #{status}
+        <if test="name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test="supplier != null and supplier != ''">
+            and supplier = #{supplier}
+        </if>
+        <if test="category1 != null and category1 != ''">
+            and one_category_id = #{category1}
+        </if>
+        <if test="category2 != null and category2 != ''">
+            and two_category_id = #{category2}
+        </if>
+        <if test="category3 != null and category3 != ''">
+            and three_category_id = #{category3}
+        </if>
+
+
+
+    </select>
+    <select id="edit" resultType="com.goods.common.model.business.Product">
+        select * from biz_product where id = #{id}
+    </select>
+</mapper>
