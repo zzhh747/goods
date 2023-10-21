@@ -80,8 +80,8 @@
 
 
     <select id="selectProductList" resultType="com.goods.common.model.business.Product">
-        select * from biz_product where 1=1
-        and status = #{status}
+        select * from biz_product where
+        status = #{status}
         <if test="name != null and name != ''">
             and name = #{name}
         </if>

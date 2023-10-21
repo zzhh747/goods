@@ -4,26 +4,71 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.goods.business.mapper.InStockMapper">
+    <insert id="addIntoStock">
+        insert into biz_in_stock (
+        id,
+        in_num,
+        type,
+        operator,
+        create_time,
+        modified,
+        product_number,
+        supplier_id,
+        remark,
+        status
+        ) values (
+        #{id},
+        #{inNum},
+        #{type},
+        #{operator},
+        now(),
+        now(),
+        #{productNumber},
+        #{supplierId},
+        #{remark},
+        2
+        )
+    </insert>
+    <insert id="addStockInfo">
+        insert into biz_in_stock_info (
+        in_num,
+        p_num,
+        product_number,
+        create_time,
+        modified_time
+        ) values (
+        #{inNum},
+        #{pNum},
+        #{productNumber},
+        now(),
+        now()
+        )
+    </insert>
+    <update id="publish">
+        update biz_in_stock set status = 0 where id = #{id}
+    </update>
 
     <select id="selectInStockList" resultType="com.goods.common.model.business.InStock">
-        select * from biz_in_stock where 1=1
+        select * from biz_in_stock bis join biz_supplier bs on bis.supplier_id = bs.id
+        where 1=1
         <if test="status != null and status != ''">
-            and status = #{status}
+            and bis.status = #{status}
         </if>
         <if test="type != null and type != ''">
-            and type = #{type}
+            and bis.type = #{type}
         </if>
         <if test="inNum != null and inNum != ''">
-            and inNum = #{inNum}
+            and bis.inNum = #{inNum}
         </if>
         <if test="startTime != null and startTime != ''">
-            and startTime = #{startTime}
+            and bis.startTime = #{startTime}
         </if>
         <if test="endTime != null and endTime != ''">
-            and endTime = #{endTime}
+            and bis.endTime = #{endTime}
         </if>
     </select>
-    <select id="selectStockDetail" resultType="com.goods.common.model.business.InStock">
+    <select id="selectInStockDetail" resultType="com.goods.common.vo.business.InStockDetailVO">
         select * from biz_in_stock where id = #{id}
     </select>
+
 </mapper>

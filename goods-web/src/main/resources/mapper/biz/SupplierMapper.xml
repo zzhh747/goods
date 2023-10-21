@@ -26,6 +26,29 @@
         #{contact}
         );
     </insert>
+    <insert id="addSupplier" keyProperty="id" useGeneratedKeys="true">
+        insert into biz_supplier (
+        id,
+        name,
+        address,
+        email,
+        phone,
+        create_time,
+        modified_time,
+        sort,
+        contact
+        ) values (
+        #{supplierId},
+        #{name},
+        #{address},
+        #{email},
+        #{phone},
+        now(),
+        now(),
+        #{sort},
+        #{contact}
+        )
+    </insert>
     <update id="update">
         update biz_supplier set
         <if test="name != null and name != ''">
@@ -67,6 +90,9 @@
     </select>
     <select id="findAll" resultType="com.goods.common.model.business.Supplier">
         select * from biz_supplier
+    </select>
+    <select id="getSupplierId" resultType="java.lang.Long">
+        SELECT LAST_INSERT_ID();
     </select>
 
 </mapper>

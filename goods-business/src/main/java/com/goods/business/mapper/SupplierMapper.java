@@ -1,6 +1,7 @@
 package com.goods.business.mapper;
 
 import com.goods.common.model.business.Supplier;
+import com.goods.common.vo.business.InStockVO;
 import com.goods.common.vo.business.SupplierVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -47,4 +48,12 @@ public interface SupplierMapper {
      * @return
      */
     List<Supplier> findAll();
+
+    /**
+     * 入库如果没有地址，添加地址
+     * @param inStockVO
+     */
+    void addSupplier(InStockVO inStockVO);
+
+    Long getSupplierId();
 }

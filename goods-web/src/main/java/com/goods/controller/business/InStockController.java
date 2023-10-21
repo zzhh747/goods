@@ -2,7 +2,10 @@ package com.goods.controller.business;
 
 import com.goods.business.service.InStockService;
 import com.goods.common.model.business.InStock;
+import com.goods.common.model.business.InStockInfo;
 import com.goods.common.response.ResponseBean;
+import com.goods.common.vo.business.InStockDetailVO;
+import com.goods.common.vo.business.InStockVO;
 import com.goods.common.vo.system.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,18 +31,32 @@ public class InStockController {
                                         @RequestParam(value = "inNum", required = false) String inNum,
                                         @RequestParam(value = "startTime", required = false) String startTime,
                                         @RequestParam(value = "endTime", required = false) String endTime) {
-        PageVO<InStock> inStockPageVO = inStockService.findInStockList(pageNum,pageSize,status,type,inNum,startTime,endTime);
+        PageVO<InStock> inStockPageVO = inStockService.findInStockList(pageNum, pageSize, status, type, inNum, startTime, endTime);
         return ResponseBean.success(inStockPageVO);
     }
 
-//    @PostMapping("addIntoStock")
-//    public ResponseBean addIntoStock(@RequestBody ){
-//
-//    }
-    @GetMapping("detail/{id}")
-    public ResponseBean detail(@PathVariable Integer id){
-        InStock inStock = inStockService.findStockDetail(id);
-        return ResponseBean.success(inStock);
+    @PostMapping("addIntoStock")
+    public ResponseBean addIntoStock(@RequestBody InStockVO inStockVO) {
+        inStockService.addIntoStock(inStockVO);
+        return ResponseBean.success();
     }
 
+    /*@GetMapping("detail/{id}")
+    public ResponseBean detail(@PathVariable Integer id) {
+        InStock inStock = inStockService.findStockDetail(id);
+        return ResponseBean.success(inStock);
+    }*/
+
+    @PutMapping("publish/{id}")
+    public ResponseBean publish(@PathVariable Integer id) {
+        inStockService.publish(id);
+        return ResponseBean.success();
+    }
+
+    @GetMapping("detail/{id}")
+    public ResponseBean detail(@PathVariable Long id,
+                               @RequestParam Long pageNum) {
+        InStockDetailVO inStockDetailVO = inStockService.findInStockDetail(id, pageNum);
+        return ResponseBean.success(inStockDetailVO);
+    }
 }
