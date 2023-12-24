@@ -18,7 +18,7 @@ public interface InStockService {
      * @param endTime
      * @return
      */
-    PageVO<InStock> findInStockList(Integer pageNum, Integer pageSize, String status, String type, String inNum, String startTime, String endTime);
+    PageVO<InStockVO> findInStockList(Integer pageNum, Integer pageSize, String status, String type, String inNum, String startTime, String endTime);
 
 
 
@@ -40,5 +40,11 @@ public interface InStockService {
      * @param pageNum
      * @return
      */
-     InStockDetailVO findInStockDetail(Long id, Long pageNum);
+     InStockDetailVO findInStockDetail(Long id, Integer pageNum);
+
+    /**
+     * 放入回收站
+     * @param id
+     */
+    void remove(Integer id);
 }

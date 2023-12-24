@@ -48,27 +48,62 @@
         update biz_in_stock set status = 0 where id = #{id}
     </update>
 
+    <update id="remove">
+        update biz_in_stock set status = 1 where id = #{id}
+    </update>
+
     <select id="selectInStockList" resultType="com.goods.common.model.business.InStock">
         select * from biz_in_stock bis join biz_supplier bs on bis.supplier_id = bs.id
-        where 1=1
-        <if test="status != null and status != ''">
-            and bis.status = #{status}
-        </if>
+        where
+        bis.status = #{status}
         <if test="type != null and type != ''">
             and bis.type = #{type}
         </if>
         <if test="inNum != null and inNum != ''">
-            and bis.inNum = #{inNum}
+            and bis.in_num = #{inNum}
         </if>
-        <if test="startTime != null and startTime != ''">
-            and bis.startTime = #{startTime}
+        <if test="startTime != null">
+            and bis.modified &gt; #{startTime}
         </if>
-        <if test="endTime != null and endTime != ''">
-            and bis.endTime = #{endTime}
+        <if test="endTime != null">
+            and bis.modified &lt; #{endTime}
         </if>
     </select>
     <select id="selectInStockDetail" resultType="com.goods.common.vo.business.InStockDetailVO">
         select * from biz_in_stock where id = #{id}
     </select>
 
+    <select id="selectSupplier" resultType="com.goods.common.model.business.Supplier">
+        select * from biz_supplier where id = #{supplierId}
+    </select>
+    <select id="selectInStock" resultType="com.goods.common.model.business.InStock">
+        select * from biz_in_stock where id = #{id}
+    </select>
+    <select id="selectInStockInfoList" resultType="com.goods.common.model.business.InStockInfo">
+        select * from biz_in_stock_info where in_num = #{inNum}
+    </select>
+
+    <select id="selectProductStock" resultType="com.goods.common.model.business.ProductStock">
+        select * from biz_product_stock where p_num = #{pNum}
+    </select>
+
+    <update id="updateProductStock">
+        update biz_product_stock set stock = stock + #{stock} where p_num = #{pNum}
+    </update>
+
+    <insert id="addProductStock" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_product_stock (
+            p_num,
+            stock
+        ) values (
+            #{pNum},
+            #{stock}
+        )
+    </insert>
+
+    <select id="selectProductStockById" resultType="com.goods.common.model.business.ProductStock">
+        SELECT bisi.p_num,bisi.product_number FROM biz_in_stock bis
+        LEFT JOIN biz_in_stock_info bisi ON bis.in_num = bisi.in_num
+        WHERE bis.id = #{id};
+    </select>
 </mapper>

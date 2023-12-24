@@ -81,7 +81,10 @@
 
     <select id="selectProductList" resultType="com.goods.common.model.business.Product">
         select * from biz_product where
-        status = #{status}
+        1=1
+        <if test="status != null and status != ''">
+            and status = #{status}
+        </if>
         <if test="name != null and name != ''">
             and name = #{name}
         </if>
@@ -104,4 +107,11 @@
     <select id="edit" resultType="com.goods.common.model.business.Product">
         select * from biz_product where id = #{id}
     </select>
+    <select id="selectProduct" resultType="com.goods.common.model.business.Product">
+        select * from biz_product where id = #{productId}
+    </select>
+    <select id="selectProductByPNum" resultType="com.goods.common.model.business.Product">
+        select * from biz_product where p_num = #{pNum}
+    </select>
+
 </mapper>

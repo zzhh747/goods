@@ -31,8 +31,8 @@ public class InStockController {
                                         @RequestParam(value = "inNum", required = false) String inNum,
                                         @RequestParam(value = "startTime", required = false) String startTime,
                                         @RequestParam(value = "endTime", required = false) String endTime) {
-        PageVO<InStock> inStockPageVO = inStockService.findInStockList(pageNum, pageSize, status, type, inNum, startTime, endTime);
-        return ResponseBean.success(inStockPageVO);
+        PageVO<InStockVO> inStockVoPageVO = inStockService.findInStockList(pageNum, pageSize, status, type, inNum, startTime, endTime);
+        return ResponseBean.success(inStockVoPageVO);
     }
 
     @PostMapping("addIntoStock")
@@ -55,8 +55,14 @@ public class InStockController {
 
     @GetMapping("detail/{id}")
     public ResponseBean detail(@PathVariable Long id,
-                               @RequestParam Long pageNum) {
+                               @RequestParam Integer pageNum) {
         InStockDetailVO inStockDetailVO = inStockService.findInStockDetail(id, pageNum);
         return ResponseBean.success(inStockDetailVO);
+    }
+
+    @PutMapping("/remove/{id}")
+    public ResponseBean remove(@PathVariable Integer id){
+        inStockService.remove(id);
+        return ResponseBean.success();
     }
 }

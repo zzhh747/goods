@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.goods.business.mapper.OutStockMapper">
+
+    <select id="selectOutStockList" resultType="com.goods.common.model.business.OutStock">
+        select * from biz_out_stock bos where
+        bos.status = #{status}
+        <if test="type != null and type != ''">
+            and bos.type = #{type}
+        </if>
+        <if test="outNum != null and outNum != ''">
+            and bos.out_num = #{outNum}
+        </if>
+    </select>
+
+    <insert id="addOutStock">
+        insert into biz_out_stock
+        (
+        id,
+        out_num,
+        type,
+        operator,
+        create_time,
+        product_number,
+        consumer_id,
+        remark,
+        status,
+        priority
+        ) values (
+        #{id},
+        #{out_num},
+        #{type},
+        #{operator},
+        #{create_time},
+        #{product_number},
+        #{consumer_id},
+        #{remark},
+        #{status},
+        #{priority}
+        )
+
+    </insert>
+
+    <update id="publish">
+        update biz_out_stock set status = 0 where id = #{id}
+    </update>
+
+    <update id="updateProductStock">
+        update biz_product_stock set stock = stock - #{stock} where p_num = #{pNum}
+    </update>
+
+    <select id="selectProductStockById" resultType="com.goods.common.model.business.ProductStock">
+        SELECT bosi.p_num,bosi.product_number FROM biz_out_stock bos
+        LEFT JOIN biz_out_stock_info bosi ON bos.out_num = bosi.out_num
+        WHERE bos.id = #{id};
+    </select>
+</mapper>

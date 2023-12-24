@@ -60,4 +60,13 @@ public interface ProductMapper {
      * @param id
      */
     void delete(Integer id);
+
+    /**
+     * 查找物资
+     * @param productId
+     * @return
+     */
+    Product selectProduct(Long productId);
+
+    Product selectProductByPNum(String pNum);
 }

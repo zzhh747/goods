@@ -1,6 +1,7 @@
 package com.goods.controller.business;
 
 import com.goods.business.service.ConsumerService;
+import com.goods.business.service.SupplierService;
 import com.goods.common.model.business.Consumer;
 import com.goods.common.model.business.Supplier;
 import com.goods.common.response.ResponseBean;
@@ -9,6 +10,8 @@ import com.goods.common.vo.business.SupplierVO;
 import com.goods.common.vo.system.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * projectName:com.goods.controller.business
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.*;
 public class ConsumerController {
     @Autowired
     private ConsumerService consumerService;
+
+    @Autowired
+    private SupplierService supplierService;
 
     @GetMapping("findConsumerList")
     public ResponseBean findConsumerList(@RequestParam("pageNum") Integer pageNum,
@@ -51,6 +57,12 @@ public class ConsumerController {
     public ResponseBean delete(@PathVariable Integer id) {
         consumerService.delete(id);
         return ResponseBean.success();
+    }
+
+    @GetMapping("findAll")
+    public ResponseBean findAll(){
+        List<Supplier> list = supplierService.findAll();
+        return ResponseBean.success(list);
     }
 
 }

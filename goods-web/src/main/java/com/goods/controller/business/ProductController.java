@@ -86,4 +86,16 @@ public class ProductController {
         PageVO<Product> productPageVO = productService.findProductList(pageNum, pageSize, name, categoryId, supplier, status, categorys);
         return ResponseBean.success(productPageVO);
     }
+
+    @GetMapping("/findProductStocks")
+    public ResponseBean findProductStocks(@RequestParam("pageNum") Integer pageNum,
+                                     @RequestParam("pageSize") Integer pageSize,
+                                     @RequestParam(value = "name", required = false) String name,
+                                     @RequestParam(value = "categoryId", required = false) String categoryId,
+                                     @RequestParam(value = "supplier", required = false) String supplier,
+                                     @RequestParam(value = "status", required = false) String status,
+                                     @RequestParam(value = "categorys", required = false) String categorys) {
+        PageVO<Product> productPageVO = productService.findProductList(pageNum, pageSize, name, categoryId, supplier, status, categorys);
+        return ResponseBean.success(productPageVO);
+    }
 }

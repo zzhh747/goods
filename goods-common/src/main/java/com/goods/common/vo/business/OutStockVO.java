@@ -1,6 +1,8 @@
 package com.goods.common.vo.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.goods.common.model.business.Product;
+import com.goods.common.model.business.ProductStock;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class OutStockVO {
 
 
     //发放的物资列表
-    private List<Object> products=new ArrayList<>();
+    private List<ProductStock> products=new ArrayList<>();
 
     private String remark;
 

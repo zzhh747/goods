@@ -12,10 +12,10 @@ import javax.persistence.Table;
 @Table(name = "biz_product_stock")
 public class ProductStock {
     @Id
-    private Long id;
+    private Long productId;
 
     private String pNum;
 
-    private Long stock;
+    private Long productNumber;
 
 }

@@ -1,6 +1,7 @@
 package com.goods.common.vo.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.goods.common.model.business.ProductStock;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -39,7 +40,9 @@ public class InStockVO {
     @NotBlank(message = "入库备注不能为空")
     private String remark;
 
-    private List<Object>products=new ArrayList<>();
+    private List<Object>objects=new ArrayList<>();
+
+    private List<ProductStock>products=new ArrayList<>();
 
     private Integer status;
 
